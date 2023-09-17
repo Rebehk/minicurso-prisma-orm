@@ -1,0 +1,1 @@
+# minicruso-prisma-orm
