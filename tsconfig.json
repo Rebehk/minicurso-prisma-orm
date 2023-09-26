@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "sourceMap": true,
+    "outDir": "dist",
+    "strict": true,
+    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "skipLibCheck": true,
+    "baseUrl": "src",
+    "noImplicitAny": true,
+    "experimentalDecorators": true,
+    "typeRoots": ["./src/@types", "node_modules/@types"]
+  },
+  "ts-node": true
+}
