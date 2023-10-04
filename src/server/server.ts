@@ -1,8 +1,7 @@
 import express from "express";
-import http from "http";
 
 const app = express();
 
-const server = http.createServer(app);
+app.use(express.json());
 
-export { server };
+export { app };
