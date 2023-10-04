@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String     @id @default(uuid())
+  email    String     @unique
+  password String
+  fullName String
+  role     UsersRole? @default(user)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  comment Comment[] // Cria um relacionamento um-para-muitos com a tabela comment
+  like    Like[] // Cria um relacionamento muitos-para-muitos com a tabela recipe
+  profile Profile? // Cria um relacionamento um-para-um com a tabela profile
+
+  @@map("users")
+}
+
+model Profile {
+  id     String  @id @default(uuid())
+  bio    String?
+  avatar String?
+  user   User    @relation(fields: [userId], references: [id])
+  userId String  @unique
+
+  @@map("profiles")
+}
+
+enum UsersRole {
+  user
+  admin
+}
+
+model Recipe {
+  id          String    @id @default(cuid())
+  author      String
+  title       String    @unique
+  ingredients String[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime?
+
+  comment Comment[] // Cria um relacionamento um-para-muitos com a tabela comment
+  like    Like[] // Cria um relacionamento muitos-para-muitos com a tabela like
+
+  @@map("recipes")
+}
+
+model Comment {
+  id        Int       @id @default(autoincrement())
+  author    String
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipeId String
+
+  @@map("comments")
+}
+
+model Like {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipeId String
+
+  @@map("likes")
+}

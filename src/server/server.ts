@@ -1,8 +1,23 @@
+import "express-async-errors";
 import express from "express";
-import http from "http";
+
+import {
+  userRouter,
+  authRouter,
+  commentsRouter,
+  recipesRouter,
+} from "../routes";
+import errorHandlingMiddleware from "../middlewares/errorHandling";
 
 const app = express();
 
-const server = http.createServer(app);
+app.use(express.json());
 
-export { server };
+app.use("/api", userRouter);
+app.use("/api", authRouter);
+app.use("/api", commentsRouter);
+app.use("/api", recipesRouter);
+
+app.use(errorHandlingMiddleware);
+
+export { app };
