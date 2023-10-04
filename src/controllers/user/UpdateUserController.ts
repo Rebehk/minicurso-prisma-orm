@@ -6,7 +6,7 @@ export class UpdateUserController {
   async handle(req: Request, res: Response) {
     const updateUserService = new UpdateUserService();
 
-    const id = req.userId;
+    const { id } = req.params;
 
     const updateUser = {
       fullName: req.body.fullName,
@@ -15,8 +15,17 @@ export class UpdateUserController {
       role: req.body.role ?? req.body.role,
     };
 
+    const updateProfile = {
+      bio: req.body.bio,
+      avatar: req.body.avatar,
+    };
+
     try {
-      const result = await updateUserService.execute(id, updateUser);
+      const result = await updateUserService.execute(
+        id,
+        updateUser,
+        updateProfile
+      );
 
       return res.json(result);
     } catch (error) {

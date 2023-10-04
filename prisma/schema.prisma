@@ -43,24 +43,26 @@ enum UsersRole {
 }
 
 model Recipe {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   author      String
-  title       String
+  title       String    @unique
   ingredients String[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime?
 
   comment Comment[] // Cria um relacionamento um-para-muitos com a tabela comment
   like    Like[] // Cria um relacionamento muitos-para-muitos com a tabela like
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime?
 
   @@map("recipes")
 }
 
 model Comment {
-  id       Int    @id @default(autoincrement())
-  author   String
-  comment  String
+  id        Int       @id @default(autoincrement())
+  author    String
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
   user     User   @relation(fields: [userId], references: [id])
   userId   String
   recipe   Recipe @relation(fields: [recipeId], references: [id])
@@ -70,15 +72,14 @@ model Comment {
 }
 
 model Like {
-  id       String @id @default(uuid())
-  likedBy  String
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
   user     User   @relation(fields: [userId], references: [id])
   userId   String
   recipe   Recipe @relation(fields: [recipeId], references: [id])
   recipeId String
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime?
 
   @@map("likes")
 }

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateUserService } from "../../services/user/CreateUserController";
+import { CreateUserService } from "../../services/user/CreateUserService";
 import { BadRequestError } from "../../helpers/api-erros";
 
 export class CreateUserController {
